@@ -1,0 +1,10 @@
+.vscode
+.idea
+
+target
+compiled
+bin
+lib
+
+*.jar
+*.zip
