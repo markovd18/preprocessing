@@ -281,15 +281,43 @@ public class PreprocessingTest {
                 V. Brož – Křehlík. Trenér: Ujčík.
                 HC ZUBR Přerov: Postava – Hrdinka, Chroboček, Krisl, Ševčík, F. Němec, R.
                 Černý, Gréč – Březina, Pechanec, Indrák – Doležal, Macuh, Okál – Ministr,
-                Kratochvil, Jakub Svoboda – Goiš, F. Dvořák, Jan Svoboda. Trenér: R. Svoboda.
+                Kratochvil, Jakub Svoboda – Goiš, F. Dvořák, Jan Svoboda. Trenér: R. Svoboda.
                      """;
-        // todo zaindexujte vaše data a vytvořte testy na přítomnost nesmyslných slov,
-        // která se vyskytla ve vašem slovníku (a opravte)
 
         preprocessing.index(text);
         final Map<String, Integer> wordFrequencies = preprocessing.getWordFrequencies();
-        printWordFrequencies(wordFrequencies);
         assertFalse(wordFrequencies.containsKey(preprocessing.getProcessedForm("1,")));
         assertFalse(wordFrequencies.containsKey(preprocessing.getProcessedForm("0.")));
+    }
+
+    @Test
+    public void testLinksInBrackets() {
+        final String text = """
+                 <>  <>
+
+                 <> play-rounded-fill play-rounded-outline play-sharp-fill play-sharp-outline
+                <> pause-sharp-outline pause-sharp-fill pause-rounded-outline pause-rounded-fill
+                 <> 00:00  <>  <>Reklama <>
+                Odkaz na video
+                zkopírovat
+                Embed videa
+                zkopírovat SESTŘIH: Jihlava skolila Přerov gólem z 60. minuty <>
+                <https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.hokej.cz%2Ftv%2Fhokejka%2Fvideo%2F20222814>
+
+                <https://twitter.com/home?status=https%3A%2F%2Fwww.hokej.cz%2Ftv%2Fhokejka%2Fvideo%2F20222814>
+                Osmík parádní akcí rozhodl prodloužení
+                <https://www.hokej.cz/tv/hokejka/video/20222283>Bitka Pohla s Lichtagem
+                <https://www.hokej.cz/tv/hokejka/video/20221784>Kofroň v premiéře za Sokolov
+                skóroval <https://www.hokej.cz/tv/hokejka/video/20221783>Boleslavský junior
+                Půček (1+1) poprvé bodoval mezi dospělými
+                <https://www.hokej.cz/tv/hokejka/video/20221765>
+
+                     """;
+
+        preprocessing.index(text);
+        final var wordFrequencies = preprocessing.getWordFrequencies();
+        printWordFrequencies(wordFrequencies);
+        assertTrue(wordFrequencies
+                .containsKey(preprocessing.getProcessedForm("<https://www.hokej.cz/tv/hokejka/video/20222283>")));
     }
 }
