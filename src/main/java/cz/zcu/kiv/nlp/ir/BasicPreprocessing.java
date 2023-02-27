@@ -28,19 +28,22 @@ public class BasicPreprocessing implements Preprocessing {
         if (toLowercase) {
             document = document.toLowerCase();
         }
-        if (accentRemovalPolicy == AccentRemovalPolicy.BEFORE_STEMMING) {
-            document = removeAccents(document);
-        }
+
         for (String token : tokenizer.tokenize(document)) {
+            if (stopwords != null && stopwords.contains(token)) {
+                continue;
+            }
+
+            if (accentRemovalPolicy == AccentRemovalPolicy.BEFORE_STEMMING) {
+                document = removeAccents(document);
+            }
+
             if (stemmer != null) {
                 token = stemmer.stem(token);
             }
+
             if (accentRemovalPolicy == AccentRemovalPolicy.AFTER_STEMMING) {
                 token = removeAccents(token);
-            }
-
-            if (stopwords != null && stopwords.contains(token)) {
-                continue;
             }
 
             if (!wordFrequencies.containsKey(token)) {
