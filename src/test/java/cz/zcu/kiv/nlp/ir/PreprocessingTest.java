@@ -240,14 +240,56 @@ public class PreprocessingTest {
     }
 
     @Test
-    public void testYourData() throws Exception {
+    public void testNumberTails() throws Exception {
         createNewInstance();
 
+        final String text = """
+                 Třebíč ovládla základní část, Šumperk padá do druhé ligy! Zlín už je v šestce
+
+                 Foto: Sabina Prokešová, hstrebic.cz
+
+                25. února 18:52
+                Adam Bagar <>
+                 * Chance liga <>
+                 * Souhrny z Chance ligy <>
+                Šumperk po třech sezonách opouští Chance ligu, definitivně o tom rozhodla
+                domácí porážka 0:3 s Kolínem. Na opačném pólu tabulky se raduje Třebíč, která
+                po famózním obratu na Lapači poprvé v historii ovládla základní část soutěže. V
+                50. kole uspěly také Jihlava, Litoměřice, Prostějov, Zlín a Poruba.
+
+                Jihlava natáhla šňůru, Zubry skolil Šik <>
+
+                Přerov z předchozích tří vzájemných duelů v sezoně urval sedm bodů a dlouho se
+                zdálo, že přidá další. Po trefěMatouše Kratochvila <> dlouho vedl, jenže poté
+                Daniel Kolář <> v přesilové hře vyrovnal a Otakar Šik <> v čase 59:29 dokonal
+                parádní jihlavský obrat. Dukla natáhla bodovou šňůru na šest zápasů a na šestku
+                ztrácí čtyři body. Zubrům, kteří prohráli šesté z posledních sedmi utkání, se
+                přiblížila už na dva.
+
+                HC DUKLA JIHLAVA – HC ZUBR PŘEROV 2:1 (0:0, 0:1, 2:0)
+
+
+                Branky a nahrávky: 45. D. Kolář (Karabáček, Haman), 60. Šik (Kočí, Pořízek) –
+                26. Kratochvil.
+                Rozhodčí: Svoboda, Jechoutek – Kleprlík, Roupec.
+                Vyloučení: 3:5.
+                Využití: 1:0.
+                Střely na branku: 29:28.
+                Diváci: 634.
+                HC Dukla Jihlava: Beran – D. Kolář, Haman, Bilčík, F. Kočí, Vala, A. Dvořák,
+                Vovsik – T. Havránek, Skořepa, Karabáček – Pořízek, Handl, Šik – Cachnín, Juda,
+                V. Brož – Křehlík. Trenér: Ujčík.
+                HC ZUBR Přerov: Postava – Hrdinka, Chroboček, Krisl, Ševčík, F. Němec, R.
+                Černý, Gréč – Březina, Pechanec, Indrák – Doležal, Macuh, Okál – Ministr,
+                Kratochvil, Jakub Svoboda – Goiš, F. Dvořák, Jan Svoboda. Trenér: R. Svoboda.
+                     """;
         // todo zaindexujte vaše data a vytvořte testy na přítomnost nesmyslných slov,
         // která se vyskytla ve vašem slovníku (a opravte)
 
+        preprocessing.index(text);
         final Map<String, Integer> wordFrequencies = preprocessing.getWordFrequencies();
         printWordFrequencies(wordFrequencies);
-
+        assertFalse(wordFrequencies.containsKey(preprocessing.getProcessedForm("1,")));
+        assertFalse(wordFrequencies.containsKey(preprocessing.getProcessedForm("0.")));
     }
 }
