@@ -4,7 +4,6 @@
  */
 package cz.zcu.kiv.nlp.ir;
 
-import java.net.URI;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.regex.Matcher;

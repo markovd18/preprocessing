@@ -72,7 +72,7 @@ public class BasicPreprocessingExample {
         System.out.println();
         System.out.println("----------STEM Agressive------------------");
         System.out.println();
-
+        stemmer = new CzechStemmerAgressive();
         wordsStatistics(documents, "\\S+", true, null, false, false, true);
 
         System.out.println();
